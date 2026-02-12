@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Valentine?</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        .no-button {
+            transition: all 0.2s ease;
+            position: absolute;
+        }
+        #container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #fff5f5;
+            overflow: hidden;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="container">
+        <div class="mb-8 w-64 h-64 flex items-center justify-center">
+            <img id="main-gif" 
+                 src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueXpueXpueXpueXpueXpueXpueXpueXpueXpueXpueXpueCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/qUIm586OTaz4Zp3SIn/giphy.gif" 
+                 alt="Begging Puppy" 
+                 class="rounded-lg shadow-xl object-cover w-full h-full">
+        </div>
+
+        <h1 id="question" class="text-4xl md:text-5xl font-bold text-pink-600 mb-12 text-center px-4">
+            Will you be my Valentine? 🌹
+        </h1>
+
+        <div class="flex gap-4 items-center justify-center">
+            <button id="yesBtn" 
+                    class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-10 rounded-full text-xl shadow-lg transform transition hover:scale-110">
+                Yes!
+            </button>
+            
+            <button id="noBtn" 
+                    class="no-button bg-red-500 text-white font-bold py-3 px-10 rounded-full text-xl shadow-lg">
+                No
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const mainGif = document.getElementById('main-gif');
+        const questionText = document.getElementById('question');
+
+        // Function to move the "No" button
+        const moveButton = () => {
+            const btnWidth = noBtn.offsetWidth;
+            const btnHeight = noBtn.offsetHeight;
+            
+            // Generate random coordinates within the window bounds
+            const newX = Math.floor(Math.random() * (window.innerWidth - btnWidth));
+            const newY = Math.floor(Math.random() * (window.innerHeight - btnHeight));
+
+            noBtn.style.left = `${newX}px`;
+            noBtn.style.top = `${newY}px`;
+        };
+
+        // Trigger move on hover or touch
+        noBtn.addEventListener('mouseover', moveButton);
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            moveButton();
+        });
+
+        // "Yes" Button Click Logic
+        yesBtn.addEventListener('click', () => {
+            // Change GIF to celebratory one
+            mainGif.src = "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueXpueXpueXpueXpueXpueXpueXpueXpueXpueXpueXpueCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l41lH4ADRtAYnGsLe/giphy.gif";
+            
+            // Change Text
+            questionText.innerText = "Yay! See you on Feb 14th! ❤️";
+            questionText.classList.remove('text-pink-600');
+            questionText.classList.add('text-red-600');
+
+            // Hide the "No" button
+            noBtn.style.display = 'none';
+
+            // Fire Confetti!
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+        });
+    </script>
+</body>
+</html>
